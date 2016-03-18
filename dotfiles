@@ -1,0 +1,39 @@
+#!/bin/bash
+
+dir="$(cd "$(dirname "$0")" && pwd -P)"
+olddir=$dir/dotfiles_old
+
+declare -A actions=(
+    ['install']='Install a module'
+    ['backup']='Backup a module' )
+
+function backup {
+    echo "Creating $olddir for backup of any existing dotfiles"
+    mkdir -p $olddir
+    echo "...done"
+}
+
+function install {
+    echo "Moving any existing dotfiles from ~ to $olddir"
+    mv ~/.$1 $olddir
+    echo "Creating symlink to $1 in home directory."
+    ln -s $dir/$1 ~/.$1
+}
+
+function print_actions {
+    for i in "${!actions[@]}"
+    do
+        echo "$i: ${actions[$i]}"
+    done
+}
+
+function run {
+    if [ "`type -t $1`" = 'function' ]; then
+        ${1} $2
+    else
+        echo "Unknown action. Available actions are the followings"
+        print_actions
+    fi
+}
+
+run $1 $2
