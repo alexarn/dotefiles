@@ -7,11 +7,15 @@ function install {
     echo "Update submodules"
     git submodule update
 
-    echo "Moving any existing dotfiles from ~ to $olddir"
-    mv ~/.$1 $olddir
+    for module in "$@"
+    do
+        echo "Moving any existing dotfiles from ~ to $olddir"
+        mv ~/.$module $olddir
 
-    echo "Creating symlink to $1 in home directory."
-    ln -s $dir/$1 ~/.$1
+        echo "Creating symlink to $module in home directory."
+        ln -s $dir/$module ~/.$module
+    done
+
 }
 
-install $1
+install $@
