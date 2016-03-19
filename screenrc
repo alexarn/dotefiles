@@ -1,0 +1,5 @@
+startup_message off
+caption always "%d/%m/%y %c %-Lw%{= Rk}%50>%n%f* %t%{-}%+Lw%<"
+termcapinfo xterm ti@:te@
+bindkey -m "^[[5;2~" stuff ^b
+bindkey -m "^[[6;2~" stuff ^f
