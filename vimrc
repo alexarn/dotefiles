@@ -5,6 +5,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
     Plugin 'VundleVim/Vundle.vim'
     Plugin 'jlanzarotta/bufexplorer'
+    Plugin 'joonty/vdebug'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
