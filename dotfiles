@@ -3,19 +3,36 @@
 dir="$(cd "$(dirname "$0")" && pwd -P)"
 olddir=$dir/dotfiles_old
 
+function install_vim {
+    cp $dir/.vimrc ~/.vimrc
+
+    if [ ! -d ~/.vim/bundle ];
+    then
+	mkdir -R ~/.vim/bundle
+    fi
+
+    if [ ! -d ~/.vim/bundle/Vundle.vim ];
+    then
+	git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+	vim +PluginInstall +qall
+    fi
+
+}
+
 function install {
-    echo "Update submodules"
-    git submodule update --init --recursive
+    module=$1
 
-    for module in "$@"
-    do
-        echo "Moving any existing dotfiles from ~ to $olddir"
-        mv ~/.$module $olddir
+    if [ "$module" = "vim" ] || [ "$module" = "all" ]
+    then
+	echo "Installing vim configuration"
+	install_vim
+    fi
 
-        echo "Creating symlink to $module in home directory."
-        ln -s $dir/$module ~/.$module
-    done
-
+    if [ "$module" = "screen" ] || [ "$module" = "all" ]
+    then
+	echo "Installing vim configuration"
+	cp $dir/.screenrc ~/.screenrc
+    fi
 }
 
 install $@
